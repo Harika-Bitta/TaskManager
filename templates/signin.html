@@ -1,0 +1,46 @@
+<!--in index.html and signin.html pages html code is overriding so, we can write below line by removing html code in signin.html.-->
+{%extends 'index.html' %}
+
+<!--adding static file path-->
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/signin.css">
+{% endblock %}
+
+
+{% block content %}
+{% if sign %}
+	<div class="main">
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+			<div class="signup">
+				<form method="post" action="signin">
+					 {% csrf_token %}
+					 {% if msg %}
+					 <h3 style="color:red"> enter correct details</h3>
+					 {% endif %}
+					<label for="chk" aria-hidden="true">Sign up</label>
+					<input type="text" name="txtname" placeholder="User name" required="">
+					<input type="email" name="txtemail" placeholder="Email" required="">
+					<input type="password" name="txtpswd" placeholder="Password" required="">
+					<button type="submit">Sign up</button>
+				</form>
+			</div>
+{% endif %}
+
+		{% if login %}
+		<div class="login">
+				<form method="post" action="login">
+					 {% csrf_token %}
+					 {% if msg %}
+					 <h3 style="color:red">enter proper details</h3>
+					 {% endif %}
+					<label for="chk" aria-hidden="true">Login</label>
+					<input type="text" name="name" placeholder="User Name" required="">
+					<input type="password" name="pswd" placeholder="Password" required="">
+					<button type="submit">Login</button>
+				</form>
+			</div>
+	</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,118 @@
+
+
+
+{% extends 'index.html' %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+
+{% if add %}
+     <link rel="stylesheet" href="/static/css/add.css">
+{% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+<div id="msg_2">
+    <h3 id="msg_1">TASK MANAGER</h3>
+<!-- below link for displaying the data-->
+    <a class="hyper" href="/display/" >Display all task</a>
+    <!--below link for adding the data-->
+    <a class="hyper" href="/addtask/" > Add task</a>
+
+
+        <!--below link for logout button-->
+    <a style="background-color:yellow;color:black" class="hyper"  href="/logout/" > LOGOUT</a>
+</div>
+{% if display %}
+<div>
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Task Date</th>
+          <th scope="col">NAME</th>
+          <th scope="col">DEPARTMENT</th>
+          <th scope="col">TASK</th>
+          <th scope="col">STATUS</th>
+          <th scope="col">UPDATE</th>
+          <th scope="col">DELETE</th>
+      </tr>
+  </thead>
+    {% for i in tasks %}
+  <tbody>
+    <tr>
+      <td>{{ i.id }}</td>
+      <td>{{ i.task_created }}</td>
+      <td>{{ i.name }}</td>
+      <td>{{ i.dept }}</td>
+      <td>{{ i.task }}</td>
+      <td>{{ i.status }}</td>
+        <td><a href="{% url 'update_task' i.id %}"
+               class="hyper">Update</a></td>
+        <td> <a style="background-color:red;color:white" href="{% url 'delete_task' i.id %}" class="hyper">Delete</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+</div>
+{% endif %}
+{% if add %}
+< <section class="vh-100 bg-image"
+  style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+    <div id="box1">
+        <div id="box2">
+            <h1>Add Your Task</h1>
+        </div>
+
+<form method="post">
+     {% csrf_token %}
+   <table>
+    <tr>
+        <td> <label class="header">Task Date:</label></td>
+        <td>
+            <input class="inputlabeltextarea" type="date" id="tskdate" name="tskdate" value="{{ tasks.task_created }}">
+            </td>
+    </tr>
+    <tr>
+        <td><label class="header" for="nametxt" >Name:</label></td>
+        <td><input type="text" class="inputlabeltextarea"  id="nametxt" name="nametxt" value="{{ tasks.name }}"><br></td>
+    </tr>
+    <tr>
+        <td><label class="header" for="dept">Department:</label></td>
+        <td><select id="dept" name="dept1" class="inputlabeltextarea" >
+             <option value="">--Select option--</option>
+                {% for i in department %}
+                    <option value="{{ i.id }}">{{ i.department }}</option>
+                {% endfor %}
+
+            <!-- Add more departments as needed -->
+        </select></td>
+    </tr>
+    <tr>
+        <td><label class="header" for="txttask1">Task:</label></td>
+        <td><textarea class="inputlabeltextarea"  id="txttask1" name="task" value="{{ tasks.task }}">{{ tasks.task }}</textarea></td>
+    </tr>
+    <tr>
+        <td><label class="header" for="txtstatus" >Status:</label></td>
+        <td><input type="text" class="inputlabeltextarea"  id="txtstatus" name="status" value="{{ tasks.status }}"></td>
+    </tr>
+
+    <tr>
+        <td colspan="2"><button type="submit">Submit</button></td>
+    </tr>
+
+</table>
+
+ </form>
+</div>
+ </section>
+{% endif %}
+
+
+{% endblock %}
+
+
